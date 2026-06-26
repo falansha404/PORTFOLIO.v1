@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Abdullah Emad · Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f0f4ef;
+        }
+
+        body.pharma-mode {
+            --bg-color: #e8edf2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-color);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: #0d1821;
+            padding: 2rem 1.5rem;
+            line-height: 1.5;
+            transition: background 0.6s ease;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- Blurred Logo Background (Bottom) --- */
+        #logo-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 2rem;
+            opacity: 0.35;
+        }
+
+        #logo-bg img {
+            width: 80%;
+            max-width: 900px;
+            height: auto;
+            object-fit: contain;
+            filter: blur(15px) brightness(0.9);
+            transform: scale(1.05);
+        }
+
+        #logo-bg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at bottom center, transparent 20%, var(--bg-color) 100%);
+            transition: background 0.6s ease;
+        }
+
+        /* ----- Pulsing dot (clean version) ----- */
+        .pulse-dot {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            background: #bfcc94;
+            border-radius: 50%;
+            margin-right: 0.6rem;
+            animation: pulseGlow 1.5s ease-in-out infinite;
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.8), 0 0 0 6px rgba(191, 204, 148, 0.3);
+            border: 2px solid #7a8b5a;
+            vertical-align: middle;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 0 0 3px rgba(255,255,255,0.8), 0 0 0 6px rgba(191, 204, 148, 0.3);
+            }
+            50% { 
+                transform: scale(1.25);
+                box-shadow: 0 0 0 5px rgba(255,255,255,0.6), 0 0 0 12px rgba(191, 204, 148, 0.15);
+            }
+        }
+
+        /* ----- board container ----- */
+        .board {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(8px);
+            border-radius: 2.5rem;
+            padding: 2.5rem 3rem;
+            box-shadow: 0 20px 60px -12px rgba(13, 24, 33, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            z-index: 2;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        body.pharma-mode .board {
+            border-color: rgba(52, 73, 102, 0.2);
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* ----- mode toggle ----- */
+        .mode-toggle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+            padding: 0.6rem 1.8rem;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 60px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transition: all 0.4s ease;
+        }
+
+        .mode-toggle .mode-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #344966;
+            transition: color 0.4s ease, transform 0.3s ease;
+            cursor: default;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .mode-toggle .mode-label.active {
+            color: #0d1821;
+            transform: scale(1.04);
+        }
+
+        .toggle-track {
+            width: 60px;
+            height: 32px;
+            background: #dce5d0;
+            border-radius: 40px;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            flex-shrink: 0;
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.06);
+        }
+
+        body.pharma-mode .toggle-track {
+            background: #b4cded;
+        }
+
+        .toggle-thumb {
+            width: 26px;
+            height: 26px;
+            background: #bfcc94;
+            border-radius: 50%;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 2px 12px rgba(191, 204, 148, 0.4);
+        }
+
+        body.pharma-mode .toggle-thumb {
+            left: 31px;
+            background: #344966;
+            box-shadow: 0 2px 12px rgba(52, 73, 102, 0.3);
+        }
+
+        .toggle-track .toggle-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.65rem;
+            color: rgba(13, 24, 33, 0.3);
+            pointer-events: none;
+            transition: color 0.4s ease;
+            font-family: 'Inter', sans-serif;
+        }
+        .toggle-track .toggle-icon.left {
+            left: 8px;
+        }
+        .toggle-track .toggle-icon.right {
+            right: 8px;
+        }
+        body.pharma-mode .toggle-track .toggle-icon {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* ----- header / intro ----- */
+        .intro {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            border-bottom: 2px solid #b4cded;
+            padding-bottom: 2rem;
+            transition: border-color 0.6s ease, opacity 0.6s ease;
+        }
+
+        body.pharma-mode .intro {
+            border-bottom-color: #344966;
+        }
+
+        .intro h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #0d1821;
+            line-height: 1.1;
+            margin-bottom: 0.3rem;
+            animation: fadeSlideDown 0.8s ease;
+        }
+
+        .intro .badge {
+            display: inline-block;
+            background: #bfcc94;
+            color: #0d1821;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 1.4rem;
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.8rem;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            font-family: 'Inter', sans-serif;
+        }
+
+        body.pharma-mode .intro .badge {
+            background: #344966;
+            color: #f0f4ef;
+        }
+
+        .intro .tagline {
+            font-size: 1.1rem;
+            color: #344966;
+            font-weight: 400;
+            margin-bottom: 0.4rem;
+            font-family: 'Inter', sans-serif;
+        }
+        .intro .tagline i {
+            color: #bfcc94;
+            margin: 0 4px;
+            transition: color 0.5s ease;
+        }
+        body.pharma-mode .intro .tagline i {
+            color: #344966;
+        }
+
+        .intro .contact-line {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.8rem 2rem;
+            margin: 0.6rem 0 0.8rem;
+            font-size: 0.9rem;
+            color: #344966;
+            font-family: 'Inter', sans-serif;
+        }
+        .intro .contact-line i {
+            width: 1.2rem;
+            color: #bfcc94;
+            transition: color 0.5s ease;
+        }
+        body.pharma-mode .intro .contact-line i {
+            color: #344966;
+        }
+
+        .intro .tools {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 0.6rem;
+        }
+        .intro .tools span {
+            background: #eef3e8;
+            padding: 0.15rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #0d1821;
+            border: 1px solid #dce5d0;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            font-family: 'Inter', sans-serif;
+        }
+        body.pharma-mode .intro .tools span {
+            background: #dce5f0;
+            border-color: #b4cded;
+        }
+
+        /* ----- animations ----- */
+        @keyframes fadeSlideDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.92) translateY(12px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* ----- section title ----- */
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 1.8rem;
+        }
+        .section-head h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            color: #0d1821;
+            transition: opacity 0.4s ease;
+        }
+        .section-head .recent-tag {
+            font-size: 0.8rem;
+            color: #344966;
+            background: #e6edf5;
+            padding: 0.2rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* ----- project grid (3D cards) ----- */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.8rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .card-3d {
+            perspective: 1200px;
+            height: 280px;
+            cursor: pointer;
+            animation: fadeScale 0.6s ease backwards;
+        }
+
+        .card-3d:nth-child(2) { animation-delay: 0.08s; }
+        .card-3d:nth-child(3) { animation-delay: 0.16s; }
+        .card-3d:nth-child(4) { animation-delay: 0.24s; }
+        .card-3d:nth-child(5) { animation-delay: 0.32s; }
+        .card-3d:nth-child(6) { animation-delay: 0.40s; }
+        .card-3d:nth-child(7) { animation-delay: 0.48s; }
+        .card-3d:nth-child(8) { animation-delay: 0.56s; }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-style: preserve-3d;
+            border-radius: 1.2rem;
+            box-shadow: 0 6px 18px rgba(13, 24, 33, 0.06);
+        }
+
+        .card-3d:hover .card-inner {
+            transform: rotateY(6deg) rotateX(4deg) scale(1.02);
+            box-shadow: 0 20px 40px -10px rgba(13, 24, 33, 0.2);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 1.2rem;
+            overflow: hidden;
+            background: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.2rem;
+            transition: border-color 0.4s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body.pharma-mode .card-front,
+        body.pharma-mode .card-back {
+            border-color: rgba(52, 73, 102, 0.15);
+        }
+
+        .card-front {
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            background-color: rgba(13, 24, 33, 0.08);
+        }
+
+        .card-front .card-tag {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(4px);
+            padding: 0.15rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            color: #344966;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .card-front h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: #0d1821;
+            margin-bottom: 0.1rem;
+            text-shadow: 0 1px 4px rgba(255, 255, 255, 0.4);
+        }
+        .card-front p {
+            font-size: 0.75rem;
+            color: #344966;
+            font-weight: 400;
+            text-shadow: 0 1px 4px rgba(255, 255, 255, 0.3);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            background: #ffffff;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 6px;
+        }
+        .card-back h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #0d1821;
+            font-size: 1rem;
+        }
+        .card-back p {
+            color: #344966;
+            font-size: 0.75rem;
+            max-width: 85%;
+            font-family: 'Inter', sans-serif;
+        }
+        .card-back .view-btn {
+            margin-top: 12px;
+            background: #bfcc94;
+            color: #0d1821;
+            padding: 6px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+        .card-back .view-btn:hover {
+            background: #aebf7a;
+            transform: scale(1.04);
+        }
+
+        body.pharma-mode .card-back .view-btn {
+            background: #344966;
+            color: #f0f4ef;
+        }
+        body.pharma-mode .card-back .view-btn:hover {
+            background: #1a2a3a;
+        }
+
+        .card-3d.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* ----- mode sections (fade transition) ----- */
+        .mode-section {
+            display: block;
+            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mode-section.hidden {
+            display: none;
+        }
+
+        /* ----- info row ----- */
+        .info-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem 3rem;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(4px);
+            border-radius: 2rem;
+            padding: 2rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            margin-top: 1rem;
+            transition: all 0.5s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body.pharma-mode .info-row {
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        .info-row h4 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #344966;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .exp-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #e6edf5;
+            padding: 0.4rem 0;
+            font-size: 0.9rem;
+            transition: border-color 0.4s ease;
+            font-family: 'Inter', sans-serif;
+        }
+        .exp-item:last-child {
+            border-bottom: none;
+        }
+        .exp-item .role {
+            font-weight: 500;
+            color: #0d1821;
+        }
+        .exp-item .date {
+            color: #344966;
+            font-size: 0.8rem;
+        }
+
+        /* --- Contact section (centered) --- */
+        .contact-mini {
+            text-align: center;
+        }
+
+        .contact-mini a {
+            display: inline-block;
+            margin: 0 0.8rem;
+            color: #0d1821;
+            text-decoration: none;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            transition: color 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .contact-mini a i    {
+            color: #bfcc94;
+            font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+            width: 1.6rem;
+            transition: color 0.4s ease;
+        }
+        body.pharma-mode .contact-mini a i {
+            color: #344966;
+        }
+        .contact-mini a:hover {
+            color: #344966;
+        }
+
+        /* Resume button inside contact */
+        .contact-resume-btn {
+            display: inline-block;
+            background: #bfcc94;
+            color: #0d1821;
+            padding: 0.3rem 0.8rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            border: none;
+            cursor: pointer;
+            margin-top: 0.6rem;
+        }
+        .contact-resume-btn:hover {
+            background: #aebf7a;
+            transform: scale(1.04);
+        }
+        body.pharma-mode .contact-resume-btn {
+            background: #344966;
+            color: #f0f4ef;
+        }
+        body.pharma-mode .contact-resume-btn:hover {
+            background: #1a2a3a;
+        }
+
+        /* ----- modal (with smooth animation) ----- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(13, 24, 33, 0.6);
+            backdrop-filter: blur(12px);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-card {
+            background: #ffffff;
+            max-width: 820px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 2rem;
+            padding: 2.2rem 2.5rem;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: modalIn 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            font-family: 'Inter', sans-serif;
+        }
+
+        @keyframes modalIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.92) translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: sticky;
+            top: 0;
+            float: right;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: #344966;
+            cursor: pointer;
+            transition: color 0.2s, transform 0.2s;
+            padding: 0 0.5rem;
+        }
+        .modal-close:hover {
+            color: #0d1821;
+            transform: rotate(90deg);
+        }
+
+        .modal-image {
+            width: 100%;
+            aspect-ratio: 16/10;
+            background: #eef3e8;
+            border-radius: 1.2rem;
+            margin: 0.5rem 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #b4cded;
+            background-size: cover;
+            background-position: center;
+            background-color: #dce5d0;
+        }
+
+        .modal h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            color: #0d1821;
+            margin-bottom: 0.2rem;
+        }
+        .modal .meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem 1.8rem;
+            font-size: 0.85rem;
+            color: #344966;
+            margin-bottom: 1.2rem;
+            font-family: 'Inter', sans-serif;
+        }
+        .modal .meta i {
+            color: #bfcc94;
+            width: 1.4rem;
+        }
+        .modal .desc {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #1e2b3a;
+            margin-bottom: 1.2rem;
+            font-family: 'Inter', sans-serif;
+        }
+        .modal .process {
+            background: #f0f4ef;
+            padding: 1rem 1.4rem;
+            border-radius: 1.2rem;
+            border-left: 4px solid #bfcc94;
+            font-size: 0.95rem;
+            color: #1e2b3a;
+            margin-bottom: 1.5rem;
+            font-family: 'Inter', sans-serif;
+        }
+        .modal .process strong {
+            color: #0d1821;
+        }
+
+        .icon-placeholder {
+            opacity: 0.3;
+        }
+
+        /* ----- responsive ----- */
+        @media (max-width: 700px) {
+            body { padding: 1rem; }
+            .board { padding: 1.5rem 1rem; }
+            .intro h1 { font-size: 2.4rem; }
+            .intro .contact-line { gap: 0.5rem 1.2rem; font-size: 0.8rem; }
+            .project-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; }
+            .card-3d { height: 220px; }
+            .info-row { grid-template-columns: 1fr; gap: 1.5rem; padding: 1.5rem; }
+            .modal-card { padding: 1.5rem; }
+            .modal-image { aspect-ratio: 4/3; }
+            .mode-toggle { padding: 0.4rem 1.2rem; gap: 0.8rem; }
+        }
+        @media (max-width: 450px) {
+            .project-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+            .card-3d { height: 180px; }
+            .card-front h3 { font-size: 0.85rem; }
+            .card-front .card-tag { font-size: 0.5rem; padding: 0.1rem 0.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== BLURRED LOGO BACKGROUND (BOTTOM) ===== -->
+    <div id="logo-bg">
+        <!-- ⚠️ IMPORTANT: Replace 'path/to/your-logo.png' with your actual logo file -->
+        <img src="F:/Work/Ps/projects/Randoms/MY%20stufff/minee_upscayl_6x_digital-bart-4x.png" alt="Abdullah Emad Logo" />
+    </div>
+
+    <!-- ===== BOARD ===== -->
+    <div class="board">
+
+        <!-- ===== MODE TOGGLE ===== -->
+        <div class="mode-toggle" id="modeToggle">
+            <span class="mode-label active" id="designLabel">🎨 Designer</span>
+            <div class="toggle-track" id="toggleTrack">
+                <span class="toggle-icon left">✧</span>
+                <span class="toggle-icon right">✦</span>
+                <div class="toggle-thumb"></div>
+            </div>
+            <span class="mode-label" id="pharmaLabel">💊 Pharma</span>
+        </div>
+
+        <!-- ===== INTRO ===== -->
+        <div class="intro">
+            <h1>ABDULLAH EMAD</h1>
+            <div class="badge" id="roleBadge">✦ Graphic Designer · Media Coordinator</div>
+            <div class="tagline"><i class="fas fa-quote-left"></i> Turn ideas into realities <i class="fas fa-quote-right"></i></div>
+            <div class="contact-line">
+                <span><i class="fas fa-phone"></i> +20 1030228406</span>
+                <span><i class="fas fa-envelope"></i> graphic.addict.eg@gmail.com</span>
+                <span><i class="fas fa-map-pin"></i> Giza, Egypt</span>
+            </div>
+            <div class="tools" id="toolsContainer">
+                <span>Photoshop</span>
+                <span>Illustrator</span>
+            </div>
+        </div>
+
+        <!-- ===== PROJECTS ===== -->
+        <div class="section-head">
+            <h2 id="projectsTitle">My Project</h2>
+            <span class="recent-tag"><i class="far fa-clock"></i> Recently</span>
+        </div>
+
+        <div class="project-grid" id="projectGrid">
+            <!-- injected by JS -->
+        </div>
+
+        <!-- ===== EXPERIENCE (Design Mode) ===== -->
+        <div class="mode-section" id="designExperience">
+            <div class="info-row">
+                <div>
+                    <h4><i class="fas fa-briefcase" style="margin-right:8px; color:#bfcc94;"></i>Design Experience</h4>
+                    <div class="exp-item"><span class="role">Media & IT Coordinator · PHAI</span><span class="date">2025 – Present</span></div>
+                    <div class="exp-item"><span class="role">Media & IT Head · ISEF 2023</span><span class="date">2023</span></div>
+                    <div class="exp-item"><span class="role">Graphic member · MUN AS 2022</span><span class="date">2022</span></div>
+                    <div class="exp-item"><span class="role">Freelance Designer</span><span class="date">2021 – Ongoing</span></div>
+                </div>
+                <div>
+                    <h4><i class="fas fa-paper-plane" style="margin-right:8px; color:#bfcc94;"></i>Contact</h4>
+                    <div class="contact-mini">
+                        <div>
+                            <a href="https://www.instagram.com/falansha.designs?igsh=MXQ0N2pocTd6dmQzYg==" target="_blank" class="social-link"><i class="fab fa-instagram"></i> Instagram</a>
+                            <a href="https://www.linkedin.com/in/abdalla-emad/" target="_blank" class="social-link"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                        </div>
+                        <div style="margin-top: 3rem;">
+                            <a href="Abdullah_Emad_CV.pdf" target="_blank" class="contact-resume-btn">
+                                <span class="pulse-dot"></span> Resume (CV)
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== EXPERIENCE (Pharma Mode) ===== -->
+        <div class="mode-section hidden" id="pharmaExperience">
+            <div class="info-row">
+                <div>
+                    <h4><i class="fas fa-flask" style="margin-right:8px; color:#344966;"></i>Pharma & Research</h4>
+                    <div class="exp-item"><span class="role">PharmD Student · Cairo University</span><span class="date">2025 – 2031</span></div>
+                    <div class="exp-item"><span class="role">Media & IT Coordinator · PHAI</span><span class="date">2025 – Present</span></div>
+                </div>
+                <div>
+                    <h4><i class="fas fa-paper-plane" style="margin-right:8px; color:#344966;"></i>Contact</h4>
+                    <div class="contact-mini">
+                        <div>
+                            <a href="https://www.instagram.com/falansha.designs?igsh=MXQ0N2pocTd6dmQzYg==" target="_blank" class="social-link"><i class="fab fa-instagram"></i> Instagram</a>
+                            <a href="https://www.linkedin.com/in/abdalla-emad/" target="_blank" class="social-link"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                        </div>
+                        <div style="margin-top: 1.5rem;">
+                            <a href="Abdullah_Emad_CV.pdf" target="_blank" class="contact-resume-btn">
+                                <span class="pulse-dot"></span> Resume (CV)
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ===== MODAL ===== -->
+    <div class="modal" id="projectModal">
+        <div class="modal-card">
+            <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        //  1. PROJECT DATA
+        // ============================================================
+        const allProjects = [{
+            id: 1,
+            title: 'PHAI Brand Identity',
+            category: 'Corporate Branding',
+            year: '2025',
+            client: 'PHAI',
+            tools: 'Photoshop, Illustrator',
+            description: 'Complete brand identity for the Pharmaceutical Association for Investment — including logo design, brand guidelines, stationery, and digital assets.',
+            process: 'Started with deep research into pharma investment branding. Developed multiple concepts, refined typography and color palette, and delivered a cohesive system used across all PHAI events and communications.',
+            image: '',
+            icon: 'fa-building',
+            bg: '#dce5d0',
+            mode: 'both'
+        }, {
+            id: 2,
+            title: 'ISEF 2023 Identity',
+            category: 'Event Branding',
+            year: '2023',
+            client: 'ISEF Ain Shams',
+            tools: 'Photoshop, Illustrator',
+            description: 'Full visual identity for the International Science and Engineering Fair — including logos, certificates, digital assets, and event signage.',
+            process: 'Designed a futuristic, science-inspired identity. Created certificates for 300+ participants. Managed all visual communications for the event.',
+            image: '',
+            icon: 'fa-flask',
+            bg: '#cbd8e6',
+            mode: 'both'
+        }, {
+            id: 3,
+            title: 'Social Media Campaign',
+            category: 'Social Media',
+            year: '2024',
+            client: 'Freelance',
+            tools: 'Photoshop, Capcut',
+            description: 'A complete social media campaign including static posts, carousels, and short-form video content for a lifestyle brand.',
+            process: 'Developed a content calendar, created 20+ visual assets, and produced video content optimized for Instagram and TikTok.',
+            image: '',
+            icon: 'fa-hashtag',
+            bg: '#d4dfd0',
+            mode: 'design'
+        }, {
+            id: 4,
+            title: 'T-Shirt Collection',
+            category: 'Apparel Design',
+            year: '2024',
+            client: 'Freelance',
+            tools: 'Illustrator, Photoshop',
+            description: 'A limited edition streetwear collection featuring bold typography and abstract graphics.',
+            process: 'Designed 5 original t-shirt graphics from concept to final production-ready files. Worked with a local printer on production.',
+            image: '',
+            icon: 'fa-tshirt',
+            bg: '#e6e3d8',
+            mode: 'design'
+        }, {
+            id: 5,
+            title: 'Packaging Design',
+            category: 'Packaging',
+            year: '2024',
+            client: 'Freelance',
+            tools: 'Illustrator, Photoshop',
+            description: 'Sustainable packaging design for a wellness product line — combining natural aesthetics with modern functionality.',
+            process: 'Researched sustainable materials, created 3D mockups, and delivered print-ready files for production.',
+            image: '',
+            icon: 'fa-box',
+            bg: '#dce5d0',
+            mode: 'design'
+        }, {
+            id: 6,
+            title: 'PHAI Event Coverage',
+            category: 'Photography & Video',
+            year: '2025',
+            client: 'PHAI',
+            tools: 'Photoshop, Capcut',
+            description: 'Full media coverage for PHAI flagship events — including photography, video editing, and social media content.',
+            process: 'Directed end-to-end media production for educational sessions and hub activities. Delivered professional recap videos and photo galleries.',
+            image: '',
+            icon: 'fa-camera',
+            bg: '#cbd8e6',
+            mode: 'both'
+        }, {
+            id: 7,
+            title: 'Pharma Investment Research',
+            category: 'Research & Analysis',
+            year: '2025',
+            client: 'PHAI',
+            tools: 'Data Analysis, Research',
+            description: 'Research into pharmaceutical investment trends and visual communication strategies for healthcare stakeholders.',
+            process: 'Analyzed investment data, created visual reports, and developed communication materials for investor presentations.',
+            image: '',
+            icon: 'fa-chart-line',
+            bg: '#d4dfd0',
+            mode: 'pharma'
+        }, {
+            id: 8,
+            title: 'Healthcare Social Campaign',
+            category: 'Healthcare Communications',
+            year: '2024',
+            client: 'PHAI',
+            tools: 'Photoshop, Illustrator',
+            description: 'Social media campaign focused on health awareness and pharmaceutical education for young audiences.',
+            process: 'Created visually engaging infographics, carousels, and video content explaining complex health topics.',
+            image: '',
+            icon: 'fa-heartbeat',
+            bg: '#cbd8e6',
+            mode: 'pharma'
+        }];
+
+
+        // ============================================================
+        //  2. STATE & DOM REFS
+        // ============================================================
+        let currentMode = 'design';
+        const grid = document.getElementById('projectGrid');
+        const modal = document.getElementById('projectModal');
+        const modalContent = document.getElementById('modalContent');
+        const modalClose = document.getElementById('modalClose');
+        const toggleTrack = document.getElementById('toggleTrack');
+        const designLabel = document.getElementById('designLabel');
+        const pharmaLabel = document.getElementById('pharmaLabel');
+        const roleBadge = document.getElementById('roleBadge');
+        const toolsContainer = document.getElementById('toolsContainer');
+        const projectsTitle = document.getElementById('projectsTitle');
+        const designExp = document.getElementById('designExperience');
+        const pharmaExp = document.getElementById('pharmaExperience');
+
+
+        // ============================================================
+        //  3. RENDER PROJECTS
+        // ============================================================
+        function renderProjects(mode) {
+            const filtered = allProjects.filter(p => p.mode === 'both' || p.mode === mode);
+            grid.innerHTML = '';
+
+            filtered.forEach((p, index) => {
+                const card = document.createElement('div');
+                card.className = 'card-3d';
+                card.dataset.index = index;
+                card.style.animationDelay = `${index * 0.08}s`;
+
+                let imageStyle = `background-color: ${p.bg};`;
+                if (p.image) {
+                    imageStyle =
+                        `background-image: url('${p.image}'); background-size: cover; background-position: center; background-color: ${p.bg};`;
+                }
+
+                card.innerHTML = `
+                            <div class="card-inner">
+                                <div class="card-front" style="${imageStyle} background-blend-mode: overlay; background-color: rgba(13,24,33,0.08);">
+                                    <span class="card-tag">${p.category}</span>
+                                    ${!p.image ? `<i class="fas ${p.icon}" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:3rem; color:rgba(13,24,33,0.08);"></i>` : ''}
+                                    <h3>${p.title}</h3>
+                                    <p>${p.client} · ${p.year}</p>
+                                </div>
+                                <div class="card-back">
+                                    <i class="fas ${p.icon}" style="font-size:1.8rem; color:#bfcc94; opacity:0.3;"></i>
+                                    <h4>${p.title}</h4>
+                                    <p>${p.category} · ${p.year}</p>
+                                    <button class="view-btn" data-id="${p.id}">View Project</button>
+                                </div>
+                            </div>
+                        `;
+
+                card.addEventListener('click', (e) => {
+                    if (e.target.closest('.view-btn')) return;
+                    card.classList.toggle('flipped');
+                });
+
+                card.querySelector('.view-btn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    openModal(p.id);
+                });
+
+                grid.appendChild(card);
+            });
+        }
+
+
+        // ============================================================
+        //  4. MODE SWITCH
+        // ============================================================
+        function setMode(mode) {
+            currentMode = mode;
+            const isPharma = mode === 'pharma';
+
+            document.body.classList.toggle('pharma-mode', isPharma);
+            designLabel.classList.toggle('active', !isPharma);
+            pharmaLabel.classList.toggle('active', isPharma);
+
+            if (isPharma) {
+                roleBadge.textContent = '✦ Pharma Student';
+                toolsContainer.innerHTML = `
+                            <span>PharmD · Cairo Uni </span>
+                            <span>PhAI media coordinator</span>
+                        `;
+                projectsTitle.textContent = 'Pharma Projects';
+            } else {
+                roleBadge.textContent = '✦ Graphic Designer ';
+                toolsContainer.innerHTML = `
+                            <span>Photoshop</span>
+                            <span>Illustrator</span>
+                            <span>Canva</span>
+                            <span>Figma</span>
+                        `;
+                projectsTitle.textContent = 'My Project';
+            }
+
+            if (isPharma) {
+                designExp.classList.add('hidden');
+                pharmaExp.classList.remove('hidden');
+            } else {
+                pharmaExp.classList.add('hidden');
+                designExp.classList.remove('hidden');
+            }
+
+            renderProjects(mode);
+        }
+
+
+        // ============================================================
+        //  5. TOGGLE EVENT
+        // ============================================================
+        toggleTrack.addEventListener('click', () => {
+            const nextMode = currentMode === 'design' ? 'pharma' : 'design';
+            setMode(nextMode);
+        });
+
+
+        // ============================================================
+        //  6. MODAL LOGIC
+        // ============================================================
+        function openModal(id) {
+            const p = allProjects.find(proj => proj.id === id);
+            if (!p) return;
+
+            let imageHtml = '';
+            if (p.image) {
+                imageHtml =
+                    `<div class="modal-image" style="background-image: url('${p.image}'); background-size: cover; background-position: center; background-color: ${p.bg};"></div>`;
+            } else {
+                imageHtml =
+                    `<div class="modal-image" style="background-color: ${p.bg};"><i class="fas ${p.icon}" style="font-size:4rem; color:#b4cded; opacity:0.3;"></i></div>`;
+            }
+
+            modalContent.innerHTML = `
+                        <h2>${p.title}</h2>
+                        <div class="meta">
+                            <span><i class="fas fa-tag"></i> ${p.category}</span>
+                            <span><i class="fas fa-calendar"></i> ${p.year}</span>
+                            <span><i class="fas fa-user"></i> ${p.client}</span>
+                            <span><i class="fas fa-tools"></i> ${p.tools}</span>
+                        </div>
+                        ${imageHtml}
+                        <div class="desc">${p.description}</div>
+                        <div class="process"><strong>🔄 Process</strong><br>${p.process}</div>
+                        <div style="display:flex; gap:0.8rem; flex-wrap:wrap; margin-top:0.5rem;">
+                            <span style="background:#bfcc94; color:#0d1821; padding:0.15rem 1.2rem; border-radius:40px; font-size:0.75rem; font-weight:500;">${p.category}</span>
+                            <span style="background:#eef3e8; color:#344966; padding:0.15rem 1.2rem; border-radius:40px; font-size:0.75rem;">${p.year}</span>
+                        </div>
+                    `;
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+
+        // ============================================================
+        //  7. INIT
+        // ============================================================
+        setMode('design');
+        console.log('✅ Portfolio ready! Toggle between Designer and Pharma modes.');
+    </script>
+
+</body>
+</html>
